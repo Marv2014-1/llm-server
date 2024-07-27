@@ -1,10 +1,11 @@
-/* Put `llm.js` file here instead of in middleware folder */
+/**
+ * Enable the User to send messages with mistral model
+ * This is mainly here for testing purposes
+ *
+ * Is able to send a string to the model and recive a string back
+ */
 
-let ollama;
-
-(async () => {
-    ollama = (await import("ollama")).default;
-})();
+const ollama = require("ollama");
 
 const chatBot = async (message) => {
     try {
