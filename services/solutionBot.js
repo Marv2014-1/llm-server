@@ -7,7 +7,7 @@
 const ollama = require("ollama").default;
 
 let chatConfig = {
-    model: "mistral",
+    model: "tinyllama",
     messages: [
         {
             role: "system",
@@ -35,7 +35,7 @@ let chatConfig = {
 };
 
 let botCommand =
-    "solve the problem for the user and show your steps. Provide the coede in python at the end.";
+    "solve the problem for the user. Provide the code in python at the end.";
 
 userInput = "Show me how to do it";
 
