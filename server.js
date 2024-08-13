@@ -37,9 +37,10 @@ app.use(cookieParser());
 // serve static files from public directory
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/", require("./routes/root")); // this is the routing to our root file, which displays the index page when we go to localhost3500
-app.use("/llm-test", require("./routes/chatRoutes")); // create the route for /llm
+// app.use("/llm-test", require("./routes/chatRoutes")); // create the route for /llm
 app.use("/hint-problem", require("./routes/hintRoute")); // create the route for /llm
 app.use("/solve-problem", require("./routes/solutionRoute")); // create the route for /llm
+app.use("/chat", require("./routes/chatRoutes")); // create the route for /llm
 
 app.all("*", (req, res) => {
     res.status(404);

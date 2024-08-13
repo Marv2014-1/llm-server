@@ -3,6 +3,7 @@ const allowedOrigins = [
 
     // url for when we make our React frontend
     // (it will be on port 3000 during development)
+    "http://localhost:3000",
     "http://localhost:3500",
     "http://localhost:3000",
 

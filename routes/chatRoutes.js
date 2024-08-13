@@ -4,25 +4,30 @@
 
 const express = require("express");
 const router = express.Router();
-const {chatBot} = require("../services/llm");
+const {chatBot} = require("../services/chatBot");
 const path = require("path");
 
-router
-    .get("^/$|/llm(.html)?", (req, res) => {
-        res.sendFile(path.join(__dirname, "..", "views", "llm-test.html"));
-    })
-    .post("^/$|/llm-test(.html)?", async (req, res) => {
-        console.log(req.body);
-        const {message} = req.body;
-        if (!message) {
-            return res.status(400).send({error: "Question is required"});
-        }
-        try {
-            const response = await chatBot(message);
-            res.send({answer: response});
-        } catch (error) {
-            res.status(500).send({error: "Error processing your question"});
-        }
-    });
+router.post("^/$|/chat", async (req, res) => {
+    const message = req.body.title;
+
+    if (!message || !message.title || !message.question) {
+        return res.status(400).send({error: "Title and question are required"});
+    }
+
+    const title = message.title;
+    const question = message.question;
+    const hint = message.hint;
+    const conversation = message.conversation;
+
+    if (!message) {
+        return res.status(400).send({error: "Chat is required"});
+    }
+    try {
+        const response = await chatBot(title, question, hint, conversation);
+        res.send({answer: response});
+    } catch (error) {
+        res.status(500).send({error: "Error processing your question"});
+    }
+});
 
 module.exports = router;
