@@ -7,7 +7,7 @@
 const ollama = require("ollama").default;
 
 let chatConfig = {
-    model: "mistral",
+    model: "tiny-llama",
     messages: [
         {
             role: "system",
