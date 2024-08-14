@@ -1,5 +1,5 @@
 /**
- * This robot isprompted with solving the problemforthe user
+ * This robot is prompted with solving the problem for the user
  * and showing them the steps to the solution. At the end, a code
  * sample is provided in python.
  */

@@ -2,7 +2,7 @@
  * Enable the User to send messages with mistral model
  * This is mainly here for testing purposes
  *
- * Is able to send a string to the model and recive a string back
+ * Is able to send a string to the model and receive a string back
  */
 
 const ollama = require("ollama");
