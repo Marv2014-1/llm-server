@@ -64,9 +64,14 @@ const chatBot = async (title, botQuestion, botHint, conversation) => {
 
 const invokeMistral = async () => {
     try {
-        let response = await ollama.chat(chatConfig);
+        const response = await ollama.chat(chatConfig);
+        let output = "";
 
-        return response;
+        for await (const chunk of response) {
+            output += chunk.message.content;
+        }
+
+        return output;
     } catch (error) {
         console.error(error);
     }
