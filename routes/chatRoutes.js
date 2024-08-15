@@ -12,10 +12,6 @@ router.post("^/$|/chat", async (req, res) => {
     console.log(req.body.payload);
     const message = req.body.payload.payload;
 
-    console.log(message);
-    console.log(message.title);
-    console.log(message.question);
-
     if (!message || !message.title || !message.question) {
         return res.status(400).send({error: "Title and question are required"});
     }

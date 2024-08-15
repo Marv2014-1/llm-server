@@ -1,101 +1,59 @@
-/**
- * This maintains a conversation between the user and the model.
- * The model is provided a question and the answer, as well as the user instructions.
- */
-
-const { cons, chat } = require("pos/lexicon");
-
+const { cons, chat, con } = require("pos/lexicon");
 const ollama = require("ollama").default;
 
-let chatConfig = {
+// Define the default chat configuration
+const defaultChatConfig = {
     model: "tinyllama",
     messages: [
-        {
-            role: "system",
-            content: "Problem title: ",
-        },
-        {
-            role: "system",
-            content: "question: ",
-        },
-        {
-            role: "system",
-            content: "answer: ",
-        },
-        {
-            role: "system",
-            content: "botCommand: ",
-        },
+        { role: "system", content: "Problem title: " },
+        { role: "system", content: "question: " },
+        { role: "system", content: "Hint/Solution: Not Provided" },
+        { role: "system", content: "botCommand: " },
     ],
     stream: true,
     temperature: 0.5,
 };
 
-let chatConfigReset = {
-    model: "tinyllama",
-    messages: [
-        {
-            role: "system",
-            content: "Problem title: ",
-        },
-        {
-            role: "system",
-            content: "question: ",
-        },
-        {
-            role: "system",
-            content: "Hint/Solution: Not Provided",
-        },
-        {
-            role: "system",
-            content: "botCommand: ",
-        },
-    ],
-    stream: true,
-    temperature: 0.5,
-};
-
-let botCommand =
-    "The user will ask you a question about the problem they are viewing. Provide a detailed explanation about what the user is asking. If the user asks for a hint, provide a hint. If the user asks for the answer, provide the answer. If the user asks for the code, provide the code. If the user asks for a solution, provide the solution. If the user asks for a step-by-step solution, provide a step-by-step solution";
+let botCommand = "The user will ask you a question about the problem they are viewing. Provide a detailed explanation about what the user is asking. If the user asks for a hint, provide a hint. If the user asks for the answer, provide the answer. If the user asks for the code, provide the code. If the user asks for a solution, provide the solution. If the user asks for a step-by-step solution, provide a step-by-step solution";
 
 const chatBot = async (title, botQuestion, botHint, conversation) => {
     try {
-        chatConfig.messages[0].content = "Problem title:" + title;
-        chatConfig.messages[1].content = "Problem: " + botQuestion;
-        if (!botHint == undefined) {
-            chatConfig.messages[2].content = "Hint/Solution:" + botHint;
-        }
-        chatConfig.messages[3].content = "Assistant instructions:" + botCommand;
+        // Create a new chat configuration object based on default values
+        let chatConfig = JSON.parse(JSON.stringify(defaultChatConfig));
 
-        // Process the conversation array. Undefined if no conversation is provided.
-        if (conversation != undefined) {
+        // Update chatConfig with new values
+        chatConfig.messages[0].content = "Problem title: " + title;
+        chatConfig.messages[1].content = "Problem: " + botQuestion;
+        if (botHint !== undefined) {
+            chatConfig.messages[2].content = "Hint/Solution: " + botHint;
+        }
+        chatConfig.messages[3].content = "botCommand: " + botCommand;
+
+        // Process the conversation array if provided
+        if (conversation !== undefined) {
             for (let i = 0; i < conversation.length; i++) {
-                const role = i % 2 === 0 ? "user" : "assistant";
                 chatConfig.messages.push({
                     role: conversation[i].role,
                     content: conversation[i].content,
                 });
-
-                console.log(chatConfig.messages);
-                console.log("conversation: " + conversation[i].content);
-                console.log("role: " + conversation[i].role);
-                console.log("i: " + i);
             }
         }
 
-        const output = await invokeMistral();
+        console.log("Chat Configuration:", chatConfig);
 
-        chatConfig = chatConfigReset;
-        
+        const output = await invokeMistral(chatConfig);
+
+        console.log("Output:", output);
+
         return output;
     } catch (err) {
-        console.log(err);
-        chatConfig = chatConfigReset;
-        return {error: "Failed to get response from model"};
+        console.error("Error:", err);
+        
+        return { error: "Failed to get response from model" };
     }
 };
 
-const invokeMistral = async () => {
+const invokeMistral = async (chatConfig) => {
     try {
         const response = await ollama.chat(chatConfig);
         let output = "";
@@ -106,8 +64,8 @@ const invokeMistral = async () => {
 
         return output;
     } catch (error) {
-        console.error(error);
+        console.error("Invoke Error:", error);
     }
 };
 
-module.exports = {chatBot};
+module.exports = { chatBot };
