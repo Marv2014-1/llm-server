@@ -1,4 +1,3 @@
-const { cons, chat, con } = require("pos/lexicon");
 const ollama = require("ollama").default;
 
 // Define the default chat configuration
