@@ -44,7 +44,7 @@ let chatConfigReset = {
         },
         {
             role: "system",
-            content: "answer: ",
+            content: "Hint/Solution: Not Provided",
         },
         {
             role: "system",
@@ -67,7 +67,7 @@ const chatBot = async (title, botQuestion, botHint, conversation) => {
         }
         chatConfig.messages[3].content = "Assistant instructions:" + botCommand;
 
-        // Process the conversation array. Undefin
+        // Process the conversation array. Undefined if no conversation is provided.
         if (conversation != undefined) {
             for (let i = 0; i < conversation.length; i++) {
                 const role = i % 2 === 0 ? "user" : "assistant";
