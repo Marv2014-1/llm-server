@@ -1,9 +1,8 @@
-const { cons, chat, con } = require("pos/lexicon");
 const ollama = require("ollama").default;
 
 // Define the default chat configuration
 const defaultChatConfig = {
-    model: "tinyllama",
+    model: "mistral",
     messages: [
         { role: "system", content: "Problem title: " },
         { role: "system", content: "question: " },
