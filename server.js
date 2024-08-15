@@ -9,19 +9,6 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const PORT = process.env.PORT || 3500;
 
-// log the node env defined in .env file
-// note: in the real world, this is used to use different settings based on what environment you're working in (dev, prod, etc.)
-// based on the NODE_ENV, it might conditionally load middleware or configs and you might see this kind of code here:
-/*
-        if (process.env.NODE_ENV === 'development') {
-            <development-specific settings here>
-        } else {
-            <production-specific settings here> 
-            else could mean 'production' or something 
-        }
-    */
-console.log(process.env.NODE_ENV);
-
 // connectDB();
 
 // start logger first
