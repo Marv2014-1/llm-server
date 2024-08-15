@@ -6,9 +6,15 @@ const express = require("express");
 const router = express.Router();
 const {chatBot} = require("../services/chatBot");
 const path = require("path");
+const { con } = require("pos/lexicon");
 
 router.post("^/$|/chat", async (req, res) => {
-    const message = req.body.title;
+    console.log(req.body.payload);
+    const message = req.body.payload.payload;
+
+    console.log(message);
+    console.log(message.title);
+    console.log(message.question);
 
     if (!message || !message.title || !message.question) {
         return res.status(400).send({error: "Title and question are required"});
@@ -19,9 +25,6 @@ router.post("^/$|/chat", async (req, res) => {
     const hint = message.hint;
     const conversation = message.conversation;
 
-    if (!message) {
-        return res.status(400).send({error: "Chat is required"});
-    }
     try {
         const response = await chatBot(title, question, hint, conversation);
         res.send({answer: response});

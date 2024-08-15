@@ -3,10 +3,12 @@
  * The model is provided a question and the answer, as well as the user instructions.
  */
 
+const { cons, chat } = require("pos/lexicon");
+
 const ollama = require("ollama").default;
 
 let chatConfig = {
-    model: "tiny-llama",
+    model: "tinyllama",
     messages: [
         {
             role: "system",
@@ -24,9 +26,29 @@ let chatConfig = {
             role: "system",
             content: "botCommand: ",
         },
+    ],
+    stream: true,
+    temperature: 0.5,
+};
+
+let chatConfigReset = {
+    model: "tinyllama",
+    messages: [
         {
-            role: "user",
-            content: "userInput",
+            role: "system",
+            content: "Problem title: ",
+        },
+        {
+            role: "system",
+            content: "question: ",
+        },
+        {
+            role: "system",
+            content: "answer: ",
+        },
+        {
+            role: "system",
+            content: "botCommand: ",
         },
     ],
     stream: true,
@@ -38,26 +60,37 @@ let botCommand =
 
 const chatBot = async (title, botQuestion, botHint, conversation) => {
     try {
-        chatConfig.messages[0].content = title;
-        chatConfig.messages[1].content = botQuestion;
+        chatConfig.messages[0].content = "Problem title:" + title;
+        chatConfig.messages[1].content = "Problem: " + botQuestion;
         if (!botHint == undefined) {
-            chatConfig.messages[2].content = botHint;
+            chatConfig.messages[2].content = "Hint/Solution:" + botHint;
         }
-        chatConfig.messages[3].content = botCommand;
+        chatConfig.messages[3].content = "Assistant instructions:" + botCommand;
 
-        // Process the conversation array, ignoring the last item
-        for (let i = 0; i < conversation.length - 1; i++) {
-            const role = i % 2 === 0 ? "user" : "assistant";
-            chatConfig.messages.push({
-                role: conversation[i].role,
-                content: conversation[i].content,
-            });
+        // Process the conversation array. Undefin
+        if (conversation != undefined) {
+            for (let i = 0; i < conversation.length; i++) {
+                const role = i % 2 === 0 ? "user" : "assistant";
+                chatConfig.messages.push({
+                    role: conversation[i].role,
+                    content: conversation[i].content,
+                });
+
+                console.log(chatConfig.messages);
+                console.log("conversation: " + conversation[i].content);
+                console.log("role: " + conversation[i].role);
+                console.log("i: " + i);
+            }
         }
 
         const output = await invokeMistral();
+
+        chatConfig = chatConfigReset;
+        
         return output;
     } catch (err) {
         console.log(err);
+        chatConfig = chatConfigReset;
         return {error: "Failed to get response from model"};
     }
 };

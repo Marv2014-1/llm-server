@@ -10,7 +10,7 @@ const ollama = require("ollama");
 const chatBot = async (message) => {
     try {
         const response = await ollama.chat({
-            model: "tiny-llama",
+            model: "tinyllama",
             messages: [{role: "user", content: message}],
         });
 
