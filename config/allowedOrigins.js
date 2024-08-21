@@ -5,7 +5,7 @@ const allowedOrigins = [
     // (it will be on port 3000 during development)
     "http://localhost:3000",
     "http://localhost:3500",
-    "http://localhost:3000",
+    "http://localhost:3001",
 
     // next, we put the domains we register for our website
     // we need 1 with 'www.' and 1 without bc these are strings

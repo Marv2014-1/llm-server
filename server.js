@@ -28,6 +28,8 @@ app.use("/", require("./routes/root")); // this is the routing to our root file,
 app.use("/hint-problem", require("./routes/hintRoute")); // create the route for /llm
 app.use("/solve-problem", require("./routes/solutionRoute")); // create the route for /llm
 app.use("/chat", require("./routes/chatRoutes")); // create the route for /llm
+app.use("/convo", require("./routes/maizeyConvoRoutes")); // create the route for /llm
+app.use("/message", require("./routes/maizeyMessageRoutes")); // create the route for /llm
 
 app.all("*", (req, res) => {
     res.status(404);

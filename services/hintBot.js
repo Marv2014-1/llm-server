@@ -38,7 +38,7 @@ let chatConfig = {
 };
 
 let botCommand =
-    "Help the user break down the problem into managable parts. Start the explanation with `The problem presented in the title (write problem title here) can be broken down into smaller, manageable parts as follows:`. Then, provide a list of explanations. Step one should always be you breaking down the problem for the user to undersand.";
+    "Help the user break down the problem into manageable parts. Start the explanation with `The problem presented in the title (write problem title here) can be broken down into smaller, manageable parts as follows:`. Then, provide a list of explanations. Step one should always be you breaking down the problem for the user to underhand.";
 
 // let botCommand =
 //     "solve the problem for the user and show your steps. Provide the coede in python at the end.";
